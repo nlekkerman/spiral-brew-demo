@@ -122,7 +122,34 @@ export default function BeerViewer({ beer, onClose }) {
 function GLBModel({ url }) {
   const gltf = useLoader(GLTFLoader, url);
   const scene = useMemo(() => gltf.scene.clone(true), [gltf]);
-  return <primitive object={scene} scale={3.2} position={[0, 0.2, 0]} />;
+
+  // Auto-center + normalize scale so every can fills the same volume,
+  // regardless of how the source GLB was exported.
+  const { centeredScene, scale } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    const center = new THREE.Vector3();
+    box.getSize(size);
+    box.getCenter(center);
+
+    // shift so the model's center sits at the origin
+    scene.position.sub(center);
+
+    // normalize so the tallest dimension is ~1.7 units (a beer can)
+    const targetHeight = 1.7;
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+    const s = targetHeight / maxDim;
+
+    return { centeredScene: scene, scale: s };
+  }, [scene]);
+
+  return (
+    <primitive
+      object={centeredScene}
+      scale={scale}
+      position={[0, 0.9, 0]}
+    />
+  );
 }
 
 /**

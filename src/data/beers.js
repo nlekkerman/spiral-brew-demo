@@ -17,7 +17,7 @@ const beers = [
     style: "American Porter",
     abv: "6.1%",
     image: bottoms,
-    model: "/models/bottom-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/bottom-3d.glb`,
     tagline: "Down by the water. Where the saxophone bleeds.",
     description:
       "A noir American porter — dark cherry, tobacco, and bittersweet chocolate. Built for slow rooms and long stories.",
@@ -35,7 +35,7 @@ const beers = [
     style: "Brown Ale",
     abv: "5.5%",
     image: buckhorn,
-    model: "/models/buckhorn-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/buckhorn-3d.glb`,
     tagline: "Above the timberline. Below the stars.",
     description:
       "A crisp brown ale — toasted malt, pine resin, and a clean snap of altitude. Brewed for the long walk home.",
@@ -53,7 +53,7 @@ const beers = [
     style: "Double IPA",
     abv: "9.5%",
     image: downwardDouble,
-    model: "/models/doble-spiral-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/doble-spiral-3d.glb`,
     tagline: "Twice the voltage. Twice the descent.",
     description:
       "A double IPA wired for late hours — tropical citrus, resin, and a long electric finish. 9.5% and unblinking.",
@@ -71,7 +71,7 @@ const beers = [
     style: "American IPA",
     abv: "7.4%",
     image: downwardSpiral,
-    model: "/models/downward-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/downward-3d.glb`,
     tagline: "Neon rain. Hazy nights. The city never closes.",
     description:
       "An American IPA built from midnight citrus and humming voltage — bright, electric, dangerously easy.",
@@ -89,7 +89,7 @@ const beers = [
     style: "American Stout",
     abv: "6.5%",
     image: hardLeft,
-    model: "/models/hardleft-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/hardleft-3d.glb`,
     tagline: "Take the curve. Burn the rubber. Drink the asphalt.",
     description:
       "An American stout forged for the back straight. Charred malt, oak, and a finish like spent rubber on hot tarmac.",
@@ -107,7 +107,7 @@ const beers = [
     style: "Kölsch-Style Ale",
     abv: "5.0%",
     image: townie,
-    model: "/models/townie-3d.glb",
+    model: `${import.meta.env.BASE_URL}models/townie-3d.glb`,
     tagline: "A round for the regulars. Lights low. Talk easy.",
     description:
       "A clean Kölsch-style ale — soft bread, white grape, and a quiet finish. The neighborhood pour.",
