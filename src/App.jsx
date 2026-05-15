@@ -1,122 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import beers from "./data/beers.js";
+import Navbar from "./components/Navbar.jsx";
+import Hero from "./sections/Hero.jsx";
+import BeerSelector from "./sections/BeerSelector.jsx";
+import Story from "./sections/Story.jsx";
+import FeaturedBeers from "./sections/FeaturedBeers.jsx";
+import Events from "./sections/Events.jsx";
+import Footer from "./sections/Footer.jsx";
+import BeerViewer from "./components/BeerViewer.jsx";
 
+/**
+ * App — orchestrates the Spiral Brewery cinematic homepage.
+ * The active beer drives theme variables that ripple through every section.
+ */
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeId, setActiveId] = useState(beers[0].id);
+  const [viewerId, setViewerId] = useState(null);
+  const active = useMemo(
+    () => beers.find((b) => b.id === activeId) ?? beers[0],
+    [activeId]
+  );
+  const viewerBeer = useMemo(
+    () => (viewerId ? beers.find((b) => b.id === viewerId) ?? null : null),
+    [viewerId]
+  );
+
+  const openViewer = (id) => {
+    setActiveId(id);
+    setViewerId(id);
+  };
+  const closeViewer = () => setViewerId(null);
+
+  const themeVars = {
+    "--sb-accent": active.accent,
+    "--sb-accent-soft": active.accentSoft,
+    "--sb-glow": active.glow,
+    "--sb-bg-far": active.bgFar,
+    "--sb-bg-near": active.bgNear,
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <motion.div
+      className="sb-app"
+      style={themeVars}
+      animate={themeVars}
+      transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
+    >
+      <Navbar />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          Count is {count}
-        </button>
-      </section>
+          <Hero
+            beer={active}
+            beers={beers}
+            activeId={activeId}
+            onChange={setActiveId}
+          />
+        </motion.div>
+      </AnimatePresence>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <Story />
+      <FeaturedBeers
+        beers={beers}
+        onSelect={openViewer}
+      />
+      <Events />
+      <Footer />
+      <BeerViewer beer={viewerBeer} onClose={closeViewer} />
+    </motion.div>
+  );
 }
 
-export default App
+export default App;
