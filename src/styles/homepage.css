@@ -718,6 +718,47 @@ a { color: inherit; text-decoration: none; }
   to { transform: rotate(360deg); }
 }
 
+/* visible debug banner when GLB fails and ProceduralCan fallback is shown */
+.sb-viewer3d__error {
+  position: absolute;
+  left: 50%;
+  bottom: 4.5rem;
+  transform: translateX(-50%);
+  max-width: min(90%, 560px);
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 90, 90, 0.7);
+  border-radius: 6px;
+  background: rgba(40, 8, 8, 0.85);
+  color: #ffd4d4;
+  font-family: var(--sb-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-align: center;
+  z-index: 6;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.sb-viewer3d__error strong {
+  display: block;
+  color: #ff8e8e;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+.sb-viewer3d__error-url {
+  word-break: break-all;
+  color: #fff2cc;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+.sb-viewer3d__error-msg {
+  opacity: 0.75;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--sb-mono);
+}
+
 /* =================== BEER CAN SVG =================== */
 .sb-can {
   position: relative;
